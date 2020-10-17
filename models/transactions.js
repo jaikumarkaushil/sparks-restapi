@@ -4,36 +4,25 @@ require('mongoose-currency').loadType(mongoose);
 
 const Currency = mongoose.Types.Currency;
 
-// we have defined the schema her
 const transactionSchema = new Schema({
-    name: {
-        type: String,
-        required: true,
-        unique: true,
-    },
-    email: {
-        type: String,
-        required:true,
-    },
+    
     transferTo: {
         type: String,
-        required: true,
-        unique: true,
+        required:true
     },
-    accountNumber: {
-        type: Number,
+    transferFrom: {
+        type: String,
+        required: true
+    },
+    description: {
+        type: String,
         min: 11,
         max: 17
     },
-    credit: {
+    debitedAmount: {
         type:  Currency,
         required: true,
-        min: 0
-    },
-    debit: {
-        type:  Currency,
-        required: true,
-        min: 0
+        min: 1
     },
     balance: {
         type:  Currency,
@@ -43,10 +32,10 @@ const transactionSchema = new Schema({
 },
 {
     timestamps: true
-})
+});
 
 
 // Model for the schema
-var Transaction = mongoose.model('Transaction', transactionSchema);
+var Transactions = mongoose.model('Transaction', transactionSchema);
 
-module.exports = Transaction;
+module.exports = Transactions;

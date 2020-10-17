@@ -6,13 +6,12 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var transactionsRouter = require('./routes/transactions');
 
 // mongoose is required to integrate our node application(REST API Server) with mongodb database
 const mongoose = require('mongoose');
 
-const Users = require('./models/dummyUsers');
-
-const url = 'mongodb://localhost:27017/bank';
+const url = 'mongodb+srv://JaiDbUser:DB6mYSUTy0KPUYZK@cluster0.qu3ax.gcp.mongodb.net/bank?retryWrites=true&w=majority';
 const connect = mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true});
 
 connect.then((db) => {
@@ -33,6 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/transactions', transactionsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

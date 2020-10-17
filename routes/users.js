@@ -1,4 +1,4 @@
-var express = require('express');
+const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose =require('mongoose'); 
 const cors = require('./cors');
@@ -8,10 +8,10 @@ usersRouter.use(bodyParser.json());
 
 /* GET users listing. */
 usersRouter.route('/')
-.options(cors.corsWithOptions, (req, res) => { res.statusCode(200)})
+.options(cors.cors, (req, res) => { res.statusCode(200)})
 .get(cors.cors, (req, res, next) => {
   
-  Users.find()
+  Users.find(req.query)
     .then((users) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
@@ -33,7 +33,7 @@ usersRouter.route('/')
     res.statusCode = 403;
     res.end('PUT operation is not supported on /users');
 })
-.delete((req, res, next) => {
+.delete(cors.cors, (req, res, next) => {
   Users.deleteMany({})
   .then((resp) => {
       res.statusCode = 200
@@ -44,7 +44,7 @@ usersRouter.route('/')
 });
 
 usersRouter.route('/:userId')
-.options(cors.corsWithOptions, (req, res) => { res.statusCode(200)}) 
+.options(cors.cors, (req, res) => { res.statusCode(200)}) 
 .get(cors.cors, (req, res, next) => {
     Users.findById(req.params.userId)
     .then((user) => {
@@ -58,7 +58,7 @@ usersRouter.route('/:userId')
 .post((req, res, next) => {
     res.end('POST operation is not supported on /users/' + req.params.userId);
 })
-.put((req, res, next) => {
+.put(cors.cors, (req, res, next) => {
     Users.findByIdAndUpdate(req.params.userId, {
         $set: req.body
     }, {new: true})
@@ -70,7 +70,7 @@ usersRouter.route('/:userId')
     .catch((err) => next(err));
 
 })
-.delete((req, res, next) => {
+.delete(cors.cors, (req, res, next) => {
     Users.findByIdAndRemove(req.params.userId)
     .then((user) => {
         res.statusCode = 200;
