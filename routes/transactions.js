@@ -8,7 +8,7 @@ transactionsRouter.use(bodyParser.json());
 
 /* GET transactions listing. */
 transactionsRouter.route('/')
-.options(cors.corsWithOptions, (req, res) => { res.statusCode(200)})
+.options(cors.cors, (req, res) => { res.statusCode(200)})
 .get(cors.cors, (req, res, next) => {
   Transactions.find()
     .then((transactions) => {
