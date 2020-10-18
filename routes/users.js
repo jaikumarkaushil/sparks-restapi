@@ -8,7 +8,7 @@ usersRouter.use(bodyParser.json());
 
 /* GET users listing. */
 usersRouter.route('/')
-.options(cors.corsWithOptions, (req, res) => { res.statusCode(200)})
+.options(cors.cors, (req, res) => { res.statusCode(200)})
 .get(cors.cors, (req, res, next) => {
   
   Users.find(req.query)
@@ -44,6 +44,7 @@ usersRouter.route('/')
 });
 
 usersRouter.route('/:userId')
+.options(cors.cors, (req, res) => { res.statusCode(200)})
 .get(cors.cors, (req, res, next) => {
     Users.findById(req.params.userId)
     .then((user) => {
